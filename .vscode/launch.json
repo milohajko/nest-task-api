@@ -1,0 +1,62 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "API: debug (watch)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "start:debug"],
+      "runtimeVersion": "22",
+      "preLaunchTask": "docker: mongo up",
+      "env": {
+        "MONGO_URI": "mongodb://localhost:27017/nest-task-api",
+        "JWT_ACCESS_SECRET": "dev-access-secret-change-me-please-32chars",
+        "JWT_REFRESH_SECRET": "dev-refresh-secret-change-me-please-32char"
+      },
+      "console": "integratedTerminal",
+      "autoAttachChildProcesses": true,
+      "skipFiles": ["<node_internals>/**", "${workspaceFolder}/node_modules/**"]
+    },
+    {
+      "name": "Tests: unit (all)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["test", "--", "--runInBand"],
+      "runtimeVersion": "22",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Tests: unit (current file)",
+      "type": "node",
+      "request": "launch",
+      "runtimeVersion": "22",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": ["${relativeFile}", "--runInBand"],
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Tests: e2e (all)",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "test:e2e"],
+      "runtimeVersion": "22",
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
+      "name": "Tests: e2e (current file)",
+      "type": "node",
+      "request": "launch",
+      "runtimeVersion": "22",
+      "program": "${workspaceFolder}/node_modules/.bin/jest",
+      "args": ["--config", "${workspaceFolder}/test/jest-e2e.json", "--runInBand", "${relativeFile}"],
+      "console": "integratedTerminal",
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ]
+}

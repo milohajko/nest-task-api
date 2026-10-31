@@ -1,0 +1,41 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "api-dev",
+      "runtimeExecutable": "zsh",
+      "runtimeArgs": [
+        "-ic",
+        "docker compose up -d mongo && MONGO_URI=\"${MONGO_URI:-mongodb://localhost:27017/nest-task-api}\" JWT_ACCESS_SECRET=\"${JWT_ACCESS_SECRET:-dev-access-secret-change-me-please-32chars}\" JWT_REFRESH_SECRET=\"${JWT_REFRESH_SECRET:-dev-refresh-secret-change-me-please-32char}\" npm run start:dev"
+      ],
+      "port": 3000
+    },
+    {
+      "name": "docker",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": ["compose", "up", "--build"],
+      "port": 3000
+    },
+    {
+      "name": "mongo",
+      "runtimeExecutable": "docker",
+      "runtimeArgs": ["compose", "up", "mongo"],
+      "port": 27017
+    },
+    {
+      "name": "test-unit",
+      "runtimeExecutable": "zsh",
+      "runtimeArgs": ["-ic", "npm test"]
+    },
+    {
+      "name": "test-e2e",
+      "runtimeExecutable": "zsh",
+      "runtimeArgs": ["-ic", "npm run test:e2e"]
+    },
+    {
+      "name": "test-all",
+      "runtimeExecutable": "zsh",
+      "runtimeArgs": ["-ic", "npm run lint && npm run typecheck && npm run test:all"]
+    }
+  ]
+}

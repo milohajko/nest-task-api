@@ -1,0 +1,45 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "docker: mongo up",
+      "type": "shell",
+      "command": "docker compose up -d mongo",
+      "problemMatcher": []
+    },
+    {
+      "label": "docker: compose up --build",
+      "type": "shell",
+      "command": "docker compose up --build",
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "docker: compose down",
+      "type": "shell",
+      "command": "docker compose down",
+      "problemMatcher": []
+    },
+    {
+      "label": "npm: lint",
+      "type": "shell",
+      "command": "source ~/.nvm/nvm.sh && nvm use && npm run lint",
+      "problemMatcher": ["$eslint-stylish"],
+      "group": "test"
+    },
+    {
+      "label": "npm: typecheck",
+      "type": "shell",
+      "command": "source ~/.nvm/nvm.sh && nvm use && npm run typecheck",
+      "problemMatcher": ["$tsc"],
+      "group": "test"
+    },
+    {
+      "label": "npm: test:all",
+      "type": "shell",
+      "command": "source ~/.nvm/nvm.sh && nvm use && npm run test:all",
+      "problemMatcher": [],
+      "group": { "kind": "test", "isDefault": true }
+    }
+  ]
+}
