@@ -1,0 +1,55 @@
+### Works with the VS Code "REST Client" extension (or JetBrains HTTP client).
+### Run them top to bottom; variables are captured from previous responses.
+
+@base = http://localhost:3000/api/v1
+
+### Health (public)
+GET {{base}}/health
+
+### Register
+# @name register
+POST {{base}}/auth/register
+Content-Type: application/json
+
+{ "email": "ada@example.com", "name": "Ada Lovelace", "password": "Password123!" }
+
+###
+@access = {{register.response.body.accessToken}}
+@refresh = {{register.response.body.refreshToken}}
+
+### Who am I
+GET {{base}}/users/me
+Authorization: Bearer {{access}}
+
+### Create a project
+# @name project
+POST {{base}}/projects
+Authorization: Bearer {{access}}
+Content-Type: application/json
+
+{ "name": "Portfolio", "description": "MVPs for interviews" }
+
+###
+@projectId = {{project.response.body.id}}
+
+### Create a task
+POST {{base}}/projects/{{projectId}}/tasks
+Authorization: Bearer {{access}}
+Content-Type: application/json
+
+{ "title": "Write README", "priority": "high", "dueDate": "2026-12-01T00:00:00.000Z" }
+
+### List tasks (filter + sort + paginate)
+GET {{base}}/projects/{{projectId}}/tasks?priority=high&sort=-createdAt&page=1&limit=10
+Authorization: Bearer {{access}}
+
+### Rotate tokens
+# @name refreshed
+POST {{base}}/auth/refresh
+Content-Type: application/json
+
+{ "refreshToken": "{{refresh}}" }
+
+### Logout
+POST {{base}}/auth/logout
+Authorization: Bearer {{refreshed.response.body.accessToken}}
